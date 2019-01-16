@@ -1,0 +1,14 @@
+
+http://127.0.0.1:8088/finMon/static/pdfJs/generic/web/viewer.html?file=http://127.0.0.1:8088/finMon/userfiles/aa22.pdf
+
+总之代替viewer.js里的DEFAULT_URL，转发或重定向都行
+
+model.addAttribute("ext", postfix);
+						model.addAttribute("id", id);
+//						model.addAttribute("file", filePath);
+						redirectAttributes.addAttribute("file", filePath);
+//						filePath = java.net.URLDecoder.decode(filePath,"UTF-8");
+//						filePath = new String(filePath.getBytes("GBK"),"iso-8859-1");
+//						return "redirect:/static/pdfJs/generic/web/viewer.html?file=" + ipPort + filePath;
+//						return "redirect:/static/pdfJs/generic/web/viewer.html?file=" + filePath;
+						return "redirect:/static/pdfJs/generic/web/viewer.html";

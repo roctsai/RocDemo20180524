@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/RocDemo20180524.iml" filepath="$PROJECT_DIR$/RocDemo20180524.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parentmaven/parentmaven.iml" filepath="$PROJECT_DIR$/parentmaven/parentmaven.iml" />
+    </modules>
+  </component>
+</project>
