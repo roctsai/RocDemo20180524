@@ -29,8 +29,8 @@ public class RocketMqUtil {
     // 默认生产者组名称
     private static final String DEFAULT_ROCKETMQ_PRODUCER_GROUPNAME = "test_producer";
     // 默认连接地址
-//    private static final String DEFAULT_ROCKETMQ_ADDRESS = "localhost:9876";
-    private static final String DEFAULT_ROCKETMQ_ADDRESS = "120.79.33.200:9876";
+    private static final String DEFAULT_ROCKETMQ_ADDRESS = "localhost:9876";
+//    private static final String DEFAULT_ROCKETMQ_ADDRESS = "120.79.33.200:9876";
     // 默认生产者应用名称
     private static final String DEFAULT_ROCKETMQ_INSTANCENAME = "test";
     // 默认生产者最大消息长度
@@ -203,7 +203,7 @@ public class RocketMqUtil {
                 public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
                     try {
                         for (MessageExt messageExt : msgs) {
-                            System.out.println(new String(messageExt.getBody(), "UTF-8"));
+                            System.out.println("=======消费者：" + new String(messageExt.getBody(), "UTF-8"));
                         }
                     } catch (Exception e) {
                     }
@@ -215,7 +215,8 @@ public class RocketMqUtil {
 
         String data = "[{\"id\":\"001\",\"name\":\"张三\",\"age\":\"21\"},{\"id\":\"002\",\"name\":\"李四\",\"age\":\"22\"}]";
         SendResult send = send(new Message("test", "test1", data.getBytes()), true);
-        System.out.println(send.toString());
+        System.out.println("=======生产者：" + send.toString());
+        System.exit(0);
     }
 
 
