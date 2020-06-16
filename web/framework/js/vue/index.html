@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>vue demo</title>
+    <script type="text/javascript" src="vue.js"></script>
+    <style type="text/css">
+        .gold {
+            color: darkgoldenrod;
+            /*color: goldenrod;*/
+        }
+        .blue {
+            color: darkblue;
+            /*color: goldenrod;*/
+        }
+    </style>
+</head>
+<body>
+<!--<div id="app" v-once>-->
+<div id="app">
+    {{a}}
+    <p>using mustaches: {{rawHtml}}</p>
+    <p v-html="rawHtml">using v-html directive: </p>
+    <div v-bind:class="color">v-bind</div>
+    <p>{{ str.split('').reverse().join('') }}</p>
+    <p v-if="seen">v-if</p>
+    <a v-bind:href="url" target="_blank">v-bind:href</a>
+    <div  @click="click1">
+        <div @click="click2">
+            @click me
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var data = {a: 1};
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            a: 'Hello vue!',
+            rawHtml: '<span style="color: red;">this is should be red</span>',
+            color: 'gold',
+            str: 'vue.js',
+            seen: false,
+            url: "https://cn.vuejs.org/",
+        },
+        // data: data,
+        beforeCreate: function () {
+            console.log("beforeCreate()");
+        },
+        created: function () {
+            console.log("created()");
+        },
+        beforeMount: function () {
+            console.log("beforeMount()");
+        },
+        mounted: function () {
+            console.log("mounted()");
+        },
+        beforeUpdate: function () {
+            console.log("beforeUpdate()");
+        },
+        updated: function () {
+            console.log("updated()");
+        },
+    });
+    data.a = "当前时间1：" + new Date().toLocaleString();
+    vm.$data.a = "当前时间2：" + new Date().toLocaleString();
+    vm.$watch('a', function (newVal, oldVal) {
+        // console.log("vm.$watch()", oldVal, newVal);
+    });
+    vm.a = "当前时间3：" + new Date().toLocaleString();
+
+    // setTimeout(function () {
+    //     vm.a = "a-new";
+    // }, 3000);
+</script>
+</body>
+</html>

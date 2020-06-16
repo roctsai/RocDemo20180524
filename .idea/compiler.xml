@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="RocDemo20180524" />
         <module name="parentmaven" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="parentmaven" target="1.5" />
+      <module name="RocDemo20180524" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
