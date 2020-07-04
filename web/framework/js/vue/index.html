@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>vue demo</title>
+    <link rel="stylesheet" href="../../ui/layui-v2.3.0/css/layui.css" media="all">
+    <script src="../../ui/layui-v2.3.0/layui.js" charset="utf-8"></script>
+
     <script type="text/javascript" src="vue.js"></script>
     <style type="text/css">
         .gold {
@@ -13,29 +16,140 @@
             color: darkblue;
             /*color: goldenrod;*/
         }
+        .active {
+            background: darkgreen;
+        }
+        .staticClass {
+            /*color: darksalmon;*/
+            font-weight: bold;
+        }
+        .fontColor {
+            color: darkgray;
+        }
     </style>
 </head>
 <body>
 <!--<div id="app" v-once>-->
 <div id="app">
+
     {{a}}
+
     <p>using mustaches: {{rawHtml}}</p>
+
     <p v-html="rawHtml">using v-html directive: </p>
+
     <div v-bind:class="color">v-bind</div>
+
     <p>{{ str.split('').reverse().join('') }}</p>
+
     <p v-if="seen">v-if</p>
+
+<!--    模板语法-插值-->
+<!--    v-bind:href等同于:href-->
     <a v-bind:href="url" target="_blank">v-bind:href</a>
+
+<!--    模板语法-指令-->
     <div  @click="click1">
-        <div @click="click2">
+<!--        <div @click="click2">-->
+        <div @click.stop="click2">
             @click me
         </div>
     </div>
+
+<!--    class和style绑定-->
+    <div class="staticClass" v-bind:class="{ active: isActive, fontColor: isFontColor}" style="width: 200px;height: 200px;text-align: center;line-height: 200px;">
+        class style binding 1
+    </div>
+    <div :style="{color: color2, fontSize: size, background: isGrey ? 'grey' : ''}">
+        class style binding 2
+    </div>
+
+<!--    条件渲染-->
+    <div v-if="ifVal === 'A'">A</div>
+    <div v-else-if="ifVal === 'B'">B</div>
+    <div v-else-if="ifVal === 'C'">C</div>
+    <div v-else>not a/b/c</div>
+
+    <h1 v-show="vShow">v-show</h1>
+
+<!--    列表渲染-->
+    <ul>
+<!--        v-bind:key等同于:key-->
+        <li v-for="item,index in items" :key="index">{{ index }}.{{ item.name }}</li>
+    </ul>
+    <ul>
+        <li v-for="val,key in obj" :key="key">{{ key }} : {{ val }}</li>
+    </ul>
+
+<!--    事件绑定-->
+    <button v-on:click="count++">数值：{{ count }}</button>
+    <button v-on:dblclick="greet('roc', $event)">dblclick to greet</button>
+
+<!--    表单输入绑定-->
+    <div><br/></div>
+    <input v-model="inputModel" placeholder="edit me">
+    <div>inputModel is: {{ inputModel }}</div>
+
+<!--    <div><br/></div>-->
+    <div style="margin-top: 20px;">
+        <input type="checkbox" id="sherry" value="sherry" v-model="cbModel">
+        <label for="sherry">sherry</label>
+        <input type="checkbox" id="roc" value="roc" v-model="cbModel">
+        <label for="roc">roc</label>
+        <input type="checkbox" id="jack" value="jack" v-model="cbModel">
+        <label for="jack">jack</label>
+        <div>check name: {{ cbModel }}</div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <input type="radio" id="lady" value="lady" name="sex" v-model="sexModel">
+        <label for="lady">lady</label>
+        <input type="radio" id="gentlemen" value="gentlemen" name="sex" v-model="sexModel">
+        <label for="gentlemen">gentlemen</label>
+        <input type="radio" id="other" value="other" name="sex" v-model="sexModel">
+        <label for="other">other</label>
+        <div>sex: {{ sexModel }}</div>
+    </div>
+    <input type="button" @click="submitForm" value="提交表单">
+
+<!--    组件基础-->
+    <div style="margin: 20px;">
+        <button-counter title="hi," @clicknow="clicknow">
+            <h2>i am h2</h2>
+        </button-counter>
+        <button-counter title="hello,"></button-counter>
+    </div>
+
 </div>
 
+
 <script type="text/javascript">
+    var layer;
+    layui.use('layer', function(){
+        layer = layui.layer;
+    });
+
+    Vue.component('button-counter', {
+        props: ['title'],
+        data: function () {
+            return{
+                count: 0
+            }
+        },
+        template: '<div><h1>i am h1 elem</h1><button v-on:click="clickFun">{{ title }} you click me {{ count }} times.</button><slot></slot></div>',
+        methods: {
+            clickFun: function () {
+                this.count++;
+                layer.msg("count = " + this.count);
+                this.$emit('clicknow', this.count);
+            }
+        }
+    })
+
     var data = {a: 1};
     var vm = new Vue({
         el: '#app',
+        // 数据与方法
         data: {
             a: 'Hello vue!',
             rawHtml: '<span style="color: red;">this is should be red</span>',
@@ -43,8 +157,55 @@
             str: 'vue.js',
             seen: false,
             url: "https://cn.vuejs.org/",
+            isActive: true,
+            isFontColor: true,
+            color2: 'blue',
+            size: '50px',
+            isGrey: true,
+            ifVal: "",
+            vShow: false,
+            count: 0,
+            inputModel: "",
+            cbModel: ['sherry', 'roc'],
+            sexModel: "lady",
+            items: [
+                { name: 'mango'},
+                { name: 'litchi'},
+            ],
+            obj: {
+                name: 'zhangliang',
+                job: 'strategist',
+                title: 'hanchusanjie',
+            }
+        },
+        methods: {
+            click1: function () {
+                console.log("click1...");
+            },
+            click2: function () {
+                console.log("click2...");
+            },
+            greet: function (param1, e) {
+                // vm.count++;
+                // layer.msg("hello count-" + vm.count);
+                layer.msg("hello, " + param1);
+                console.log("greet(e)", e);
+            },
+            submitForm: function () {
+                let postObj = {
+                    inputModel: this.inputModel,
+                    cbModel: this.cbModel,
+                    sexModel: this.sexModel
+                };
+                console.log("postObj", postObj);
+                layer.msg("表单成功提交，请查看控制台");
+            },
+            clicknow: function (e) {
+                console.log("clicknow", e);
+            }
         },
         // data: data,
+        // 生命周期
         beforeCreate: function () {
             console.log("beforeCreate()");
         },
