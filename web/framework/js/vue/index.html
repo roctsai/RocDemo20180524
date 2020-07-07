@@ -120,6 +120,9 @@
         <button-counter title="hello,"></button-counter>
     </div>
 
+<!--    组件注册完后调用-->
+    <comph2></comph2>
+
 </div>
 
 
@@ -224,6 +227,12 @@
         updated: function () {
             console.log("updated()");
         },
+        //组件注册-局部
+        components: {
+            comph2: {
+                template: "<h2>i am h2 elem(vue component)</h2>"
+            }
+        }
     });
     data.a = "当前时间1：" + new Date().toLocaleString();
     vm.$data.a = "当前时间2：" + new Date().toLocaleString();
